@@ -1,0 +1,125 @@
+@use "theme";
+@use "transition";
+@use "element-plus";
+@use "sidebar";
+@use "dark";
+@use "ai-style";
+
+$form-item-width: 250px !default;
+$form-item-width-offset: 10px !default;
+
+/* 自定义全局 CssVar */
+:root {
+  /* 左侧菜单展开、收起动画时长 */
+  --pure-transition-duration: 0.3s;
+
+  /* 常用border-color 需要时可取用 */
+  --pure-border-color: rgb(5 5 5 / 6%);
+
+  /* switch关闭状态下的color 需要时可取用 */
+  --pure-switch-off-color: #a6a6a6;
+
+  /** 主题色 */
+  --pure-theme-sub-menu-active-text: initial;
+  --pure-theme-menu-bg: none;
+  --pure-theme-menu-hover: none;
+  --pure-theme-sub-menu-bg: transparent;
+  --pure-theme-menu-text: initial;
+  --pure-theme-sidebar-logo: none;
+  --pure-theme-menu-title-hover: initial;
+  --pure-theme-menu-active-before: transparent;
+}
+
+/* 灰色模式 */
+.html-grey {
+  filter: grayscale(100%);
+}
+
+/* 色弱模式 */
+.html-weakness {
+  filter: invert(80%);
+}
+
+.edit-dialog {
+    width:100% !important;
+    max-width:1300px !important;
+}
+.el-col .el-form-item{
+    width:100%;
+}
+div.el-table.lay-fit-col > div.el-table__body-wrapper.is-scrolling-none > table > tbody > tr > td.el-table__cell > div {
+    word-break: keep-all;
+    text-overflow: initial;
+    white-space: nowrap;
+}
+.lay-form.el-form{
+  .el-form-item{
+    display: inline-flex;
+    label{
+      flex:auto 0;
+    }
+    div.el-form-item__content{
+      flex:auto 1;
+      div.el-input{
+        width:100%;
+        .input{
+          width:100%;
+        }
+      }
+      div.el-textarea{
+        width:100%;
+        textarea{
+          width:100%;
+        }
+      }
+      div.el-select{
+        width:100%;
+        div.el-input{
+          width:100%;
+          input{
+            width:100%;
+          }
+        }
+      }
+    }
+  }
+  .lay-form-item-1{
+    min-width:  ($form-item-width + $form-item-width-offset ) * 1 - $form-item-width-offset;
+    width:100%;
+  }
+  .lay-form-item-2{
+    min-width: ($form-item-width + $form-item-width-offset ) * 2 - $form-item-width-offset;
+    width:100%;
+  }
+  .lay-form-item-3{
+    min-width: ($form-item-width + $form-item-width-offset ) * 3 - $form-item-width-offset;
+    width:100%;
+  }
+  .lay-form-item-4{
+    min-width: ($form-item-width + $form-item-width-offset ) * 4 - $form-item-width-offset;
+    width:100%;
+  }
+  .lay-form-item-all{
+    display: flex;
+  }
+
+}
+
+// ------------- 修复原miniplatweb中的样式 ----------------
+
+.w1000-dia .el-dialog {
+  max-width: 1010px;
+  width: 1010px;
+}
+
+// -------------- lay-ver-container 的样式 ---------------
+.lay-v-c{
+  display:flex;
+  flex-flow:column nowrap;
+  .lay-v-c-zoom-in{
+      flex:auto 0 0;
+  }
+  .lay-v-c-zoom-out{
+      flex:auto 1 1 ;
+  }
+}

@@ -1,0 +1,15 @@
+include:
+- project: devops/ci-templates
+  file: /kube/node.gitlab-ci.yml
+- project: devops/ci-templates
+  file: /kube/deploy.gitlab-ci.yml
+
+variables:
+  KUBE_DEVELOPMENT_TARGET: devx
+  KUBE_PRODUCTION_TARGET: boea
+  KUBE_NAMESPACE: boea
+  KUBE_WORKLOAD: deploy/lhlyviz-web
+
+nodejs-build:
+  variables:
+    NODE_IMAGE_TAG: 22-alpine

@@ -1,0 +1,27 @@
+{
+    "i18n-ally.localesPaths": ["locales"],
+    // ✅ 打开 ESLint 的格式化开关（VSCode 新版默认已开启，显式写上更保险）
+    "eslint.format.enable": true,
+    // ✅ Vue/JS/TS 文件用 ESLint 做格式化器
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    // CSS/SCSS 文件 ESLint 管不到，继续用 Prettier
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "chat.disableAIFeatures": false
+}

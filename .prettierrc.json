@@ -1,0 +1,9 @@
+{
+    "printWidth": 500,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "semi": false,
+    "bracketSameLine": false,
+    "singleAttributePerLine": false,
+    "htmlWhitespaceSensitivity": "css"
+}
