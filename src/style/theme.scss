@@ -82,15 +82,15 @@ html[data-theme="mingQing"] {
   --pure-theme-menu-active-before: #59bfc1;
 }
 
-/* 初音青（Miku）*/
+/* 初音青（Miku）：马卡龙浅色渐变侧边栏，与首页风格一致 */
 html[data-theme="miku"] {
-  --pure-theme-sub-menu-active-text: #fff;
-  --pure-theme-menu-bg: #062a29;
-  --pure-theme-menu-hover: rgb(57 197 187 / 15%);
-  --pure-theme-sub-menu-bg: #041a19;
-  --pure-theme-menu-text: #8fd8d3;
-  --pure-theme-sidebar-logo: #0a3d3a;
-  --pure-theme-menu-title-hover: #fff;
+  --pure-theme-sub-menu-active-text: #1fa89e;
+  --pure-theme-menu-bg: linear-gradient(180deg, #ffe9f3 0%, #e6f3ff 55%, #d9f5f1 100%);
+  --pure-theme-menu-hover: rgb(57 197 187 / 12%);
+  --pure-theme-sub-menu-bg: rgb(57 197 187 / 6%);
+  --pure-theme-menu-text: #55808d;
+  --pure-theme-sidebar-logo: linear-gradient(135deg, #ffd6e8 0%, #d3ecff 100%);
+  --pure-theme-menu-title-hover: #1fa89e;
   --pure-theme-menu-active-before: #39c5bb;
 }
 
