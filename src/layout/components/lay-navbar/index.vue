@@ -24,7 +24,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang()
     <div class="navbar miku-navbar shadow-xs shadow-[rgba(57,197,187,0.15)]">
         <LaySidebarTopCollapse v-if="device === 'mobile'" class="hamburger-container" :is-active="pureApp.sidebar.opened" @toggleClick="toggleSideBar" />
 
-        <LaySidebarBreadCrumb v-if="layout !== 'mix' && device !== 'mobile'" class="breadcrumb-container" />
+        <!-- <LaySidebarBreadCrumb v-if="layout !== 'mix' && device !== 'mobile'" class="breadcrumb-container" /> -->
 
         <LayNavMix v-if="layout === 'mix'" />
 
