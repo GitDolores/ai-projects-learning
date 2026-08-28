@@ -25,7 +25,8 @@
   width: 100%;
   font-size: 14px;
   color: var(--el-text-color-primary);
-  background: #fff;
+  /* miku 主题下由 theme.scss 覆盖为马卡龙渐变 */
+  background: var(--tags-bg, #fff);
   box-shadow: 0 0 1px #888;
 
   .scroll-item {

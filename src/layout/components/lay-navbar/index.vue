@@ -21,7 +21,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang()
 </script>
 
 <template>
-    <div class="navbar bg-[#fff] shadow-xs shadow-[rgba(0,21,41,0.08)]">
+    <div class="navbar miku-navbar shadow-xs shadow-[rgba(57,197,187,0.15)]">
         <LaySidebarTopCollapse v-if="device === 'mobile'" class="hamburger-container" :is-active="pureApp.sidebar.opened" @toggleClick="toggleSideBar" />
 
         <LaySidebarBreadCrumb v-if="layout !== 'mix' && device !== 'mobile'" class="breadcrumb-container" />
@@ -89,6 +89,9 @@ const { t, locale, translationCh, translationEn } = useTranslationLang()
     height: 48px;
     overflow: hidden;
 
+    /* miku 主题下由 theme.scss 覆盖 --navbar-bg / --navbar-text */
+    background: var(--navbar-bg, #fff);
+
     .hamburger-container {
         float: left;
         height: 100%;
@@ -102,7 +105,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang()
         justify-content: flex-end;
         min-width: 280px;
         height: 48px;
-        color: #000000d9;
+        color: var(--navbar-text, #000000d9);
 
         .el-dropdown-link {
             display: flex;
@@ -110,7 +113,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang()
             justify-content: space-around;
             height: 48px;
             padding: 10px;
-            color: #000000d9;
+            color: var(--navbar-text, #000000d9);
             cursor: pointer;
 
             p {

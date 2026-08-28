@@ -92,6 +92,13 @@ html[data-theme="miku"] {
   --pure-theme-sidebar-logo: linear-gradient(135deg, #ffd6e8 0%, #d3ecff 100%);
   --pure-theme-menu-title-hover: #1fa89e;
   --pure-theme-menu-active-before: #39c5bb;
+
+  /* 顶部导航栏：与侧边栏同源的马卡龙横向渐变 */
+  --navbar-bg: linear-gradient(90deg, #ffe9f3 0%, #e6f3ff 55%, #d9f5f1 100%);
+  --navbar-text: #1fa89e;
+
+  /* 标签栏：延续渐变的浅青底 */
+  --tags-bg: #e3f7f4;
 }
 
 /* 酸橙绿 */
