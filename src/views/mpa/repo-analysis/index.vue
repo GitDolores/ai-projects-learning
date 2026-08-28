@@ -28,6 +28,43 @@
             </div>
         </el-card>
 
+        <!-- 历史存档 -->
+        <el-card v-if="history.length > 0" shadow="never" class="mb-4">
+            <template #header>
+                <div class="flex items-center justify-between">
+                    <span class="text-lg font-bold">🕘 历史存档</span>
+                    <el-button link size="small" :loading="historyLoading" @click="loadHistory">刷新</el-button>
+                </div>
+            </template>
+            <div class="history-list">
+                <div
+                    v-for="item in history"
+                    :key="item.RepoUrl"
+                    class="history-item"
+                    @click="onReopen(item.RepoUrl)"
+                >
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold">{{ item.RepoName }}</span>
+                            <el-tag size="small" type="info">{{ item.DefaultBranch }}</el-tag>
+                        </div>
+                        <div class="history-desc">{{ item.Description }}</div>
+                        <div class="history-meta">分析于 {{ item.AnalyzedAt }} · {{ item.RepoUrl }}</div>
+                    </div>
+                    <div class="flex items-center gap-1" @click.stop>
+                        <el-tooltip content="填入输入框，重新查看报告">
+                            <el-button size="small" type="primary" link @click="onReopen(item.RepoUrl)">回看</el-button>
+                        </el-tooltip>
+                        <el-popconfirm title="删除该历史报告？" confirm-button-text="删除" cancel-button-text="取消" @confirm="onDeleteHistory(item.RepoUrl)">
+                            <template #reference>
+                                <el-button size="small" type="danger" link>删除</el-button>
+                            </template>
+                        </el-popconfirm>
+                    </div>
+                </div>
+            </div>
+        </el-card>
+
         <!-- 分析进度 -->
         <el-card v-if="isAnalyzing || progressLogs.length > 0" shadow="never" class="mb-4">
             <template #header>
@@ -147,11 +184,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { fetchEventSource, EventSourceMessage } from '@microsoft/fetch-event-source'
 import { getToken } from '@/utils/auth'
 import { ElMessage } from 'element-plus'
-import { getAnalyzeEndpoint, getCachedReport, AnalysisSseEvent, RepoAnalysisReport } from '@/api/repo-analysis'
+import { getAnalyzeEndpoint, getCachedReport, getHistoryList, deleteCachedReport, AnalysisSseEvent, HistoryItem, RepoAnalysisReport } from '@/api/repo-analysis'
 
 defineOptions({ name: 'RepoAnalysis' })
 
@@ -159,6 +196,41 @@ const repoUrl = ref('')
 const isAnalyzing = ref(false)
 const percent = ref(0)
 const report = ref<RepoAnalysisReport | null>(null)
+
+const history = ref<HistoryItem[]>([])
+const historyLoading = ref(false)
+
+async function loadHistory() {
+    historyLoading.value = true
+    try {
+        history.value = (await getHistoryList()) ?? []
+    } catch {
+        // 历史加载失败不阻断页面，面板隐藏即可
+        history.value = []
+    } finally {
+        historyLoading.value = false
+    }
+}
+
+/** 回看历史：填入 URL 并直接走缓存查询展示 */
+async function onReopen(url: string) {
+    if (isAnalyzing.value) return
+    repoUrl.value = url
+    await onAnalyze(false)
+}
+
+async function onDeleteHistory(url: string) {
+    try {
+        await deleteCachedReport(url)
+        history.value = history.value.filter(h => h.RepoUrl !== url)
+        if (report.value?.RepoUrl === url) report.value = null
+        ElMessage.success('已删除')
+    } catch {
+        ElMessage.error('删除失败')
+    }
+}
+
+onMounted(loadHistory)
 
 interface ProgressLog {
     time: string
@@ -272,6 +344,7 @@ async function onAnalyze(forceRefresh: boolean) {
             percent.value = 100
             addLog('分析完成 ✅', 'success')
             ElMessage.success('分析完成')
+            loadHistory()
         } else if (!abortController?.signal.aborted) {
             addLog('连接已关闭但未收到报告', 'warning')
             ElMessage.warning('连接已关闭，未收到完整报告')
@@ -296,6 +369,39 @@ function onStop() {
 </script>
 
 <style lang="scss" scoped>
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    background-color: var(--el-fill-color-light);
+    border-radius: 4px;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: var(--el-fill-color);
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.history-desc {
+    overflow: hidden;
+    font-size: 13px;
+    color: var(--el-text-color-secondary);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history-meta {
+    font-size: 12px;
+    color: var(--el-text-color-placeholder);
+}
+
 .directory-tree {
     padding: 12px 16px;
     margin: 0;

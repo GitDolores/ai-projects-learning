@@ -111,6 +111,19 @@ export interface AnalysisSseEvent {
 
 // ==================== 缓存 ====================
 
+/** 历史存档摘要（GET history 返回条目） */
+export interface HistoryItem {
+    RepoUrl: string
+
+    RepoName: string
+
+    DefaultBranch: string
+
+    Description: string
+
+    AnalyzedAt: string
+}
+
 /** 查询仓库的分析缓存；无缓存时返回 null */
 export function getCachedReport(repoUrl: string) {
     return http.request<RepoAnalysisReport | null>('get', '/api/mpa/repoanalysis/cache', { params: { url: repoUrl } }, { noProgress: true })
@@ -119,6 +132,11 @@ export function getCachedReport(repoUrl: string) {
 /** 删除仓库的分析缓存 */
 export function deleteCachedReport(repoUrl: string) {
     return http.request('delete', '/api/mpa/repoanalysis/cache', { params: { url: repoUrl } })
+}
+
+/** 历史存档列表（按分析时间倒序） */
+export function getHistoryList() {
+    return http.request<HistoryItem[]>('get', '/api/mpa/repoanalysis/history', {}, { noProgress: true })
 }
 
 // ==================== SSE 分析端点 ====================
