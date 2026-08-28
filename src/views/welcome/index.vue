@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, markRaw } from 'vue'
 import ReCol from '@/components/ReCol'
+import MikuHero from './components/MikuHero.vue'
 import { useDark, randomGradient } from './utils'
 import WelcomeTable from './components/table/index.vue'
 import { ReNormalCountTo } from '@/components/ReCountTo'
@@ -28,6 +29,7 @@ const optionsBasis: Array<OptionsType> = [
 
 <template>
     <div class="main main-content">
+        <MikuHero class="mb-[18px]" />
         <el-row :gutter="12" justify="space-around">
             <re-col
                 v-for="(item, index) in chartData"
