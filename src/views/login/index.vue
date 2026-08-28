@@ -18,9 +18,10 @@ import LoginUpdate from './components/LoginUpdate.vue'
 import LoginQrCode from './components/LoginQrCode.vue'
 import { useUserStore, useUserStoreHook } from '@/store/modules/user'
 import { initRouter, getTopMenu } from '@/router/utils'
-import { bg, avatar, illustration } from './utils/static'
+import { bg, avatar } from './utils/static'
+import ReMiku from '@/components/ReMiku/index.vue'
 import { ReImageVerify } from '@/components/ReImageVerify'
-import { ref, toRaw, onActivated, reactive, watch, computed } from 'vue'
+import { ref, onActivated, reactive, watch, computed } from 'vue'
 import { useRenderIcon } from '@/components/ReIcon/src/hooks'
 import { useTranslationLang } from '@/layout/hooks/useTranslationLang'
 import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange'
@@ -137,8 +138,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="select-none" style="background: ghostwhite">
-        <img :src="bg" class="wave" />
+    <div class="select-none miku-login-bg">
+        <div class="miku-bg-deco miku-bg-deco-1" />
+        <div class="miku-bg-deco miku-bg-deco-2" />
+        <img :src="bg" class="wave miku-wave" />
         <div class="flex-c absolute right-5 top-3">
             <!-- 主题 -->
             <el-switch v-model="dataTheme" inline-prompt :active-icon="dayIcon" :inactive-icon="darkIcon" @change="dataThemeChange" />
@@ -163,7 +166,7 @@ onMounted(() => {
         </div>
         <div class="login-container">
             <div class="img">
-                <component :is="toRaw(illustration)" />
+                <ReMiku :size="420" />
             </div>
             <div class="login-box">
                 <div class="login-form">
@@ -300,6 +303,53 @@ onMounted(() => {
 </style>
 
 <style lang="scss" scoped>
+/* 初音未来主题背景：青色渐变 + 柔光圆装饰 */
+.miku-login-bg {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #eefdfa 0%, #dff6f3 45%, #c6efeb 100%);
+}
+
+.miku-bg-deco {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgb(57 197 187 / 22%) 0%, rgb(57 197 187 / 0%) 70%);
+}
+
+.miku-bg-deco-1 {
+    top: -120px;
+    left: -80px;
+    width: 460px;
+    height: 460px;
+    animation: miku-deco-float 7s ease-in-out infinite;
+}
+
+.miku-bg-deco-2 {
+    right: -100px;
+    bottom: -140px;
+    width: 520px;
+    height: 520px;
+    animation: miku-deco-float 9s ease-in-out 1.2s infinite;
+}
+
+@keyframes miku-deco-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-18px);
+    }
+}
+
+/* 波纹图染成初音青 */
+.miku-wave {
+    filter: hue-rotate(96deg) saturate(1.5);
+    opacity: 0.75;
+}
+
 :deep(.el-input-group__append, .el-input-group__prepend) {
     padding: 0;
 }

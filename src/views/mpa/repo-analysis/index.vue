@@ -180,6 +180,11 @@
         </template>
 
         <el-empty v-else-if="!isAnalyzing && progressLogs.length === 0" description="输入 GitHub 仓库地址，开始生成通俗分析报告" />
+
+        <!-- 初音未来动态形象（页面吉祥物） -->
+        <div class="miku-mascot" title="初音未来为你加油 ♪">
+            <ReMiku :size="120" />
+        </div>
     </div>
 </template>
 
@@ -189,6 +194,7 @@ import { fetchEventSource, EventSourceMessage } from '@microsoft/fetch-event-sou
 import { getToken } from '@/utils/auth'
 import { ElMessage } from 'element-plus'
 import { getAnalyzeEndpoint, getCachedReport, getHistoryList, deleteCachedReport, AnalysisSseEvent, HistoryItem, RepoAnalysisReport } from '@/api/repo-analysis'
+import ReMiku from '@/components/ReMiku/index.vue'
 
 defineOptions({ name: 'RepoAnalysis' })
 
@@ -369,6 +375,17 @@ function onStop() {
 </script>
 
 <style lang="scss" scoped>
+/* 初音吉祥物：右下角悬浮，不拦截交互 */
+.miku-mascot {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0.9;
+    filter: drop-shadow(0 6px 14px rgb(57 197 187 / 35%));
+}
+
 .history-item {
     display: flex;
     align-items: center;

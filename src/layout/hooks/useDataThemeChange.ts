@@ -27,6 +27,8 @@ export function useDataThemeChange() {
         { color: '#fa541c', themeColor: 'volcano' },
         /* 绿宝石 */
         { color: '#13c2c2', themeColor: 'mingQing' },
+        /* 初音青 */
+        { color: '#39c5bb', themeColor: 'miku' },
         /* 酸橙绿 */
         { color: '#52c41a', themeColor: 'auroraGreen' },
     ])

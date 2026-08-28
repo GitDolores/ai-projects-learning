@@ -82,6 +82,18 @@ html[data-theme="mingQing"] {
   --pure-theme-menu-active-before: #59bfc1;
 }
 
+/* 初音青（Miku）*/
+html[data-theme="miku"] {
+  --pure-theme-sub-menu-active-text: #fff;
+  --pure-theme-menu-bg: #062a29;
+  --pure-theme-menu-hover: rgb(57 197 187 / 15%);
+  --pure-theme-sub-menu-bg: #041a19;
+  --pure-theme-menu-text: #8fd8d3;
+  --pure-theme-sidebar-logo: #0a3d3a;
+  --pure-theme-menu-title-hover: #fff;
+  --pure-theme-menu-active-before: #39c5bb;
+}
+
 /* 酸橙绿 */
 html[data-theme="auroraGreen"] {
   --pure-theme-sub-menu-active-text: #fff;
