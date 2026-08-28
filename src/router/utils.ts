@@ -292,6 +292,11 @@ function addAsyncRoutes(arrRoutes: Array<RouteRecordRawX>) {
     if (!arrRoutes || !arrRoutes.length) return
     const modulesRoutesKeys = Object.keys(modulesRoutes)
     arrRoutes.forEach((v: RouteRecordRawX) => {
+        // 后端 C# 序列化会给叶子菜单带 children: []，本地路由约定叶子节点无 children 属性；
+        // children 为空数组的节点会被 filterChildrenTree 当成空目录过滤掉，这里先归一化
+        if (Array.isArray(v.children) && v.children.length === 0) {
+            delete v.children
+        }
         // 将backstage属性加入meta，标识此路由为后端返回路由
         v.meta.backstage = true
         // 所有菜单默认显示父菜单（父级只有一个子菜单时也不折叠）
