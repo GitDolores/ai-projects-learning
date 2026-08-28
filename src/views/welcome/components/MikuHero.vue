@@ -1,7 +1,15 @@
 <script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import ReMiku from '@/components/ReMiku/index.vue'
 
 defineOptions({ name: 'MikuHero' })
+
+/* 初音尺寸随视口高度自适应，占满主体区域 */
+const winH = ref(window.innerHeight)
+const onResize = () => (winH.value = window.innerHeight)
+onMounted(() => window.addEventListener('resize', onResize))
+onBeforeUnmount(() => window.removeEventListener('resize', onResize))
+const mikuSize = computed(() => Math.min(Math.max(Math.round(winH.value * 0.42), 240), 480))
 
 interface Star {
     left: string
@@ -14,26 +22,26 @@ interface Star {
 
 /* 星光粒子：固定散布位置，错峰闪烁 */
 const stars: Star[] = [
-    { left: '6%', top: '18%', size: 14, delay: '0s', duration: '2.4s' },
-    { left: '14%', top: '58%', size: 10, delay: '0.8s', duration: '3s', pink: true },
-    { left: '22%', top: '30%', size: 8, delay: '1.6s', duration: '2.8s' },
-    { left: '33%', top: '12%', size: 12, delay: '0.4s', duration: '3.4s' },
-    { left: '45%', top: '66%', size: 9, delay: '2s', duration: '2.6s' },
-    { left: '58%', top: '14%', size: 11, delay: '1.2s', duration: '3.2s', pink: true },
-    { left: '68%', top: '52%', size: 13, delay: '0.2s', duration: '2.9s' },
-    { left: '76%', top: '22%', size: 9, delay: '1.8s', duration: '2.5s' },
-    { left: '85%', top: '44%', size: 12, delay: '0.6s', duration: '3.1s', pink: true },
-    { left: '93%', top: '15%', size: 8, delay: '2.4s', duration: '2.7s' },
-    { left: '90%', top: '68%', size: 10, delay: '1s', duration: '3.3s' },
-    { left: '4%', top: '78%', size: 8, delay: '1.4s', duration: '2.5s' },
-    { left: '40%', top: '86%', size: 9, delay: '0.9s', duration: '3s', pink: true },
-    { left: '62%', top: '80%', size: 8, delay: '2.2s', duration: '2.8s' },
+    { left: '5%', top: '14%', size: 16, delay: '0s', duration: '2.4s' },
+    { left: '12%', top: '62%', size: 11, delay: '0.8s', duration: '3s', pink: true },
+    { left: '20%', top: '32%', size: 9, delay: '1.6s', duration: '2.8s' },
+    { left: '30%', top: '10%', size: 14, delay: '0.4s', duration: '3.4s' },
+    { left: '38%', top: '74%', size: 10, delay: '2s', duration: '2.6s' },
+    { left: '52%', top: '8%', size: 12, delay: '1.2s', duration: '3.2s', pink: true },
+    { left: '64%', top: '18%', size: 15, delay: '0.2s', duration: '2.9s' },
+    { left: '74%', top: '48%', size: 10, delay: '1.8s', duration: '2.5s' },
+    { left: '82%', top: '26%', size: 13, delay: '0.6s', duration: '3.1s', pink: true },
+    { left: '90%', top: '12%', size: 9, delay: '2.4s', duration: '2.7s' },
+    { left: '94%', top: '64%', size: 12, delay: '1s', duration: '3.3s' },
+    { left: '3%', top: '82%', size: 9, delay: '1.4s', duration: '2.5s' },
+    { left: '44%', top: '88%', size: 10, delay: '0.9s', duration: '3s', pink: true },
+    { left: '68%', top: '84%', size: 9, delay: '2.2s', duration: '2.8s' },
 ]
 
-/* 音乐波形条：正弦伪随机高度，视觉均衡不闪烁 */
-const waveBars = Array.from({ length: 36 }, (_, i) => ({
-    height: 16 + Math.round((Math.sin(i * 1.7) * 0.5 + 0.5) * 34),
-    delay: `${(i % 9) * 0.12}s`,
+/* 音乐波形条：正弦伪随机高度，视觉均衡 */
+const waveBars = Array.from({ length: 64 }, (_, i) => ({
+    height: 14 + Math.round((Math.sin(i * 1.7) * 0.5 + 0.5) * 40),
+    delay: `${(i % 10) * 0.11}s`,
     pink: i % 5 === 2,
 }))
 </script>
@@ -61,15 +69,15 @@ const waveBars = Array.from({ length: 36 }, (_, i) => ({
         />
 
         <!-- 可爱爱心虚线 -->
-        <svg class="hero-heart-line hero-heart-line-l" viewBox="0 0 240 110" fill="none" aria-hidden="true">
-            <path d="M10 92 C 70 18, 160 22, 230 86" stroke="#ff9ec6" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0.5 9" />
-            <text x="64" y="46" class="hero-heart" fill="#ff8fb8">♥</text>
-            <text x="150" y="32" class="hero-heart hero-heart-sm" fill="#ffa8c9">♥</text>
+        <svg class="hero-heart-line hero-heart-line-l" viewBox="0 0 260 120" fill="none" aria-hidden="true">
+            <path d="M12 98 C 76 22, 172 26, 248 90" stroke="#ff9ec6" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0.5 9" />
+            <text x="70" y="50" class="hero-heart" fill="#ff8fb8">♥</text>
+            <text x="160" y="36" class="hero-heart hero-heart-sm" fill="#ffa8c9">♥</text>
         </svg>
-        <svg class="hero-heart-line hero-heart-line-r" viewBox="0 0 240 110" fill="none" aria-hidden="true">
-            <path d="M10 24 C 80 96, 160 92, 230 18" stroke="#39c5bb" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0.5 9" />
-            <text x="80" y="72" class="hero-heart" fill="#39c5bb">♥</text>
-            <text x="170" y="84" class="hero-heart hero-heart-sm" fill="#5fd8cf">♥</text>
+        <svg class="hero-heart-line hero-heart-line-r" viewBox="0 0 260 120" fill="none" aria-hidden="true">
+            <path d="M12 26 C 86 102, 172 98, 248 20" stroke="#39c5bb" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0.5 9" />
+            <text x="86" y="78" class="hero-heart" fill="#39c5bb">♥</text>
+            <text x="180" y="90" class="hero-heart hero-heart-sm" fill="#5fd8cf">♥</text>
         </svg>
 
         <!-- 标题区 -->
@@ -82,9 +90,9 @@ const waveBars = Array.from({ length: 36 }, (_, i) => ({
             </p>
         </div>
 
-        <!-- 中央初音形象 -->
+        <!-- 中央初音形象：占满视觉主体 -->
         <div class="hero-miku">
-            <ReMiku :size="300" />
+            <ReMiku :size="mikuSize" />
         </div>
 
         <!-- 音乐波形 -->
@@ -101,38 +109,44 @@ const waveBars = Array.from({ length: 36 }, (_, i) => ({
 </template>
 
 <style lang="scss" scoped>
-/* 马卡龙渐变背景：浅粉 → 天蓝，点缀初音青 */
+/* 全屏马卡龙渐变：浅粉 → 天蓝，铺满内容区 */
 .miku-hero {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
-    padding: 30px 24px 64px;
+    width: 100%;
+    height: calc(100vh - 120px);
+    min-height: 560px;
     text-align: center;
     background: linear-gradient(135deg, #ffe9f3 0%, #e6f3ff 52%, #d9f5f1 100%);
     border-radius: 8px;
 }
 
-/* 柔光圆：粉色 / 天蓝大面积晕染，缓慢呼吸 */
+/* 柔光圆：大面积晕染呼吸 */
 .hero-glow {
     position: absolute;
     pointer-events: none;
     border-radius: 50%;
-    filter: blur(48px);
+    filter: blur(64px);
     animation: hero-breathe 6s ease-in-out infinite;
 }
 
 .hero-glow-1 {
-    top: -140px;
-    left: -100px;
-    width: 440px;
-    height: 440px;
+    top: -180px;
+    left: -140px;
+    width: 560px;
+    height: 560px;
     background: radial-gradient(circle, rgb(255 190 220 / 55%) 0%, rgb(255 190 220 / 0%) 70%);
 }
 
 .hero-glow-2 {
-    right: -120px;
-    bottom: -80px;
-    width: 480px;
-    height: 480px;
+    right: -160px;
+    bottom: -120px;
+    width: 620px;
+    height: 620px;
     background: radial-gradient(circle, rgb(150 214 255 / 55%) 0%, rgb(150 214 255 / 0%) 70%);
     animation-delay: 2.4s;
 }
@@ -179,7 +193,7 @@ const waveBars = Array.from({ length: 36 }, (_, i) => ({
     }
 }
 
-/* 爱心虚线：左右弧线 + 漂浮爱心 */
+/* 爱心虚线弧线 */
 .hero-heart-line {
     position: absolute;
     z-index: 1;
@@ -187,24 +201,24 @@ const waveBars = Array.from({ length: 36 }, (_, i) => ({
 }
 
 .hero-heart-line-l {
-    top: 34%;
-    left: 3%;
-    width: 220px;
+    top: 24%;
+    left: 4%;
+    width: 240px;
 }
 
 .hero-heart-line-r {
-    right: 3%;
-    bottom: 30%;
-    width: 220px;
+    right: 4%;
+    bottom: 26%;
+    width: 240px;
 }
 
 .hero-heart {
-    font-size: 18px;
+    font-size: 20px;
     animation: hero-heart-float 3s ease-in-out infinite;
 }
 
 .hero-heart-sm {
-    font-size: 13px;
+    font-size: 14px;
     animation-delay: 1.2s;
 }
 
@@ -215,7 +229,7 @@ const waveBars = Array.from({ length: 36 }, (_, i) => ({
     }
 
     50% {
-        transform: translateY(-5px);
+        transform: translateY(-6px);
     }
 }
 
@@ -223,13 +237,15 @@ const waveBars = Array.from({ length: 36 }, (_, i) => ({
 .hero-header {
     position: relative;
     z-index: 2;
+    flex-shrink: 0;
+    margin-top: 12px;
 }
 
 .hero-title {
     margin: 0;
-    font-size: 30px;
+    font-size: 34px;
     font-weight: 800;
-    letter-spacing: 4px;
+    letter-spacing: 5px;
     background: linear-gradient(92deg, #ff7fb0 0%, #39c5bb 55%, #58a6ff 100%);
     background-clip: text;
     -webkit-background-clip: text;
@@ -239,14 +255,14 @@ const waveBars = Array.from({ length: 36 }, (_, i) => ({
 
 .hero-subtitle {
     margin: 10px 0 0;
-    font-size: 15px;
+    font-size: 16px;
     color: #55808d;
     letter-spacing: 2px;
 }
 
 .hero-note {
     margin: 0 4px;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .hero-note-l {
@@ -257,30 +273,35 @@ const waveBars = Array.from({ length: 36 }, (_, i) => ({
     color: #39c5bb;
 }
 
-/* 中央初音：柔和发光质感 */
+/* 中央初音：弹性占满剩余空间，柔和发光 */
 .hero-miku {
     position: relative;
     z-index: 2;
-    margin-top: 2px;
-    filter: drop-shadow(0 12px 32px rgb(57 197 187 / 30%));
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    padding: 8px 0 48px;
+    filter: drop-shadow(0 14px 36px rgb(57 197 187 / 32%));
 }
 
-/* 音乐波形：底部均衡器律动 */
+/* 音乐波形：贴底部横贯全屏 */
 .hero-wave {
     position: absolute;
     bottom: 0;
     left: 0;
     display: flex;
-    gap: 5px;
+    gap: 6px;
     align-items: flex-end;
     justify-content: center;
     width: 100%;
-    padding-bottom: 16px;
+    padding-bottom: 20px;
     pointer-events: none;
 }
 
 .hero-wave-bar {
-    width: 5px;
+    width: 6px;
     border-radius: 999px;
     background: linear-gradient(to top, #39c5bb, #8ff0e8);
     opacity: 0.75;
@@ -311,14 +332,14 @@ const waveBars = Array.from({ length: 36 }, (_, i) => ({
     }
 }
 
-/* 窄屏收敛装饰，保住主体 */
+/* 窄屏收敛装饰 */
 @media (max-width: 768px) {
     .hero-heart-line {
         display: none;
     }
 
     .hero-title {
-        font-size: 24px;
+        font-size: 26px;
         letter-spacing: 2px;
     }
 }
